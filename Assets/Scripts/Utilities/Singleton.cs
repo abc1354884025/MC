@@ -1,0 +1,24 @@
+
+using UnityEngine;
+
+public class Singleton<T> : MonoBehaviour
+where T : MonoBehaviour //对T使用where进行约束，泛型T必须继承自MonoBehaviour
+{
+    private static T instance;
+
+    //封装字段的快捷键 ctrl + r +e
+    public static T Instance
+    {
+        get
+        {
+            return instance;
+        }
+    }
+
+    //Awake必须为protect和virtual类型，可以被子类继承也可被子类重写
+    protected virtual void Awake()
+    {
+        instance = this as T;
+    }
+
+}

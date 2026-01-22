@@ -88,7 +88,7 @@ public class ItemEditor : EditorWindow
             if (i > itemList.Count) return;
             var item = itemList[i];
             if(item.itemIcon!=null)
-                e.Q<VisualElement>("Icon").style.backgroundImage = item.itemIcon.texture;
+                e.Q<VisualElement>("Icon").style.backgroundImage = GetTextureFromSprite(item.itemIcon);
             e.Q<Label>("Name").text = item ==null?"NO ITEM":item.itemName;
         };
 
@@ -123,14 +123,22 @@ public class ItemEditor : EditorWindow
         });
 
         var icon = activeItem.itemIcon?activeItem.itemIcon : defaultIcon;
-        iconPreview.style.backgroundImage = icon.texture;
+        iconPreview.style.backgroundImage = GetTextureFromSprite(icon);
         itemDetailsSection.Q<ObjectField>("ItemIcon").value = icon;
         itemDetailsSection.Q<ObjectField>("ItemIcon").RegisterValueChangedCallback(evt =>
         {
             Sprite newIcon = evt.newValue as Sprite;
             activeItem.itemIcon = newIcon;
-            iconPreview.style.backgroundImage = newIcon==null?defaultIcon.texture:newIcon.texture;
+            iconPreview.style.backgroundImage = newIcon==null?defaultIcon.texture:GetTextureFromSprite(newIcon);
             itemListView.Rebuild();
+
+        });
+
+        itemDetailsSection.Q<ObjectField>("ItemSprite").value = activeItem.itemOnWorldSprite;
+        itemDetailsSection.Q<ObjectField>("ItemSprite").RegisterValueChangedCallback(evt =>
+        {
+            Sprite newIcon = evt.newValue as Sprite;
+            activeItem.itemOnWorldSprite = newIcon;
 
         });
 
@@ -145,9 +153,45 @@ public class ItemEditor : EditorWindow
         itemDetailsSection.Q<TextField>("Description").RegisterValueChangedCallback(evt =>
         {
             activeItem.itemDescription = evt.newValue;
-
         });
 
+        itemDetailsSection.Q<IntegerField>("UseRadius").value = activeItem.useRadius;
+        itemDetailsSection.Q<IntegerField>("UseRadius").RegisterValueChangedCallback(evt =>
+        {
+            activeItem.useRadius = evt.newValue;
+        });
+
+        itemDetailsSection.Q<Toggle>("CanPickedUp").value = activeItem.canPickedup;
+        itemDetailsSection.Q<Toggle>("CanPickedUp").RegisterValueChangedCallback(evt =>
+        {
+            activeItem.canPickedup = evt.newValue;
+        });
+
+        itemDetailsSection.Q<Toggle>("CanDropped").value = activeItem.canDropped;
+        itemDetailsSection.Q<Toggle>("CanDropped").RegisterValueChangedCallback(evt =>
+        {
+            activeItem.canDropped = evt.newValue;
+        });
+
+        itemDetailsSection.Q<Toggle>("CanCarried").value = activeItem.canCarried;
+        itemDetailsSection.Q<Toggle>("CanCarried").RegisterValueChangedCallback(evt =>
+        {
+            activeItem.canCarried = evt.newValue;
+        });
+
+        itemDetailsSection.Q<IntegerField>("Price").value = activeItem.price;
+        itemDetailsSection.Q<IntegerField>("Price").RegisterValueChangedCallback(evt =>
+        {
+            activeItem.price = evt.newValue;
+        });
+
+        itemDetailsSection.Q<Slider>("SellPercentage").lowValue = 0;
+        itemDetailsSection.Q<Slider>("SellPercentage").highValue = 1;
+        itemDetailsSection.Q<Slider>("SellPercentage").value = activeItem.sellPercentage;
+        itemDetailsSection.Q<Slider>("SellPercentage").RegisterValueChangedCallback(evt =>
+        {
+            activeItem.sellPercentage = evt.newValue;
+        });
     }
 
     private void OnAddItemBtnClicked()
@@ -163,5 +207,38 @@ public class ItemEditor : EditorWindow
         itemList.Remove(activeItem);
         itemListView.Rebuild();
         itemDetailsSection.visible = false;
+    }
+    private Texture2D GetTextureFromSprite(Sprite sprite)
+    {
+        if (sprite == null)
+        {
+            return null;
+        }
+
+        // 如果Sprite的纹理是独立的（没有使用图集），可以直接使用
+        if (sprite.texture != null && sprite.texture.isReadable)
+        {
+            // 如果Sprite的矩形就是整个纹理，那么可以直接使用
+            if (sprite.rect.width == sprite.texture.width && sprite.rect.height == sprite.texture.height)
+            {
+                return sprite.texture;
+            }
+            else
+            {
+                // 否则，我们需要从Sprite中提取出对应的区域
+                // 注意：这里假设纹理是可读的，如果没有勾选Read/Write Enabled，需要先处理
+                Texture2D newTexture = new Texture2D((int)sprite.rect.width, (int)sprite.rect.height);
+                Color[] pixels = sprite.texture.GetPixels((int)sprite.rect.x, (int)sprite.rect.y, (int)sprite.rect.width, (int)sprite.rect.height);
+                newTexture.SetPixels(pixels);
+                newTexture.Apply();
+                return newTexture;
+            }
+        }
+        else
+        {
+            
+            //不能转化
+            return sprite.texture;
+        }
     }
 }

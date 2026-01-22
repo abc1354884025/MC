@@ -9,11 +9,11 @@ public class ItemDetails
     public Sprite itemIcon;
     public Sprite itemOnWorldSprite;
     public string itemDescription;
-    public int itemUseRadius;
+    public int useRadius;
     public bool canPickedup;
     public bool canDropped;
     public bool canCarried;
-    public int itemPrice;
+    public int price;
     [Range(0, 1)]
     public float sellPercentage;
 }
