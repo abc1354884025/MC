@@ -9,6 +9,11 @@ public class InventoryManager : Singleton<InventoryManager>
 
     public InventoryBag_SO playerBag;
 
+    private void Start()
+    {
+        EventHandler.CallUpdateInventoryUI(InventoryLocation.Player, playerBag.itemList);
+    }
+
     /// <summary>
     /// 根据itemID获取物品详情
     /// </summary>
@@ -41,6 +46,9 @@ public class InventoryManager : Singleton<InventoryManager>
         if(toDestory){
             Destroy(item.gameObject);
         }
+
+        //更新UI
+        EventHandler.CallUpdateInventoryUI(InventoryLocation.Player, playerBag.itemList);
     }
 
     /// <summary>

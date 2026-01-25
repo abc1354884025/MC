@@ -147,6 +147,7 @@ GameObject:
   - component: {fileID: 8729270738141199513}
   - component: {fileID: 7433876882616720818}
   - component: {fileID: 3560383838804057724}
+  - component: {fileID: 3190706869712153663}
   m_Layer: 5
   m_Name: Slot_Bag
   m_TagString: Untagged
@@ -259,6 +260,22 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3190706869712153663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3247916276800394799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d161228b0084eba47b9d298e51a8eb9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slotImage: {fileID: 8313093145735920085}
+  amountText: {fileID: 3319564762285688688}
+  slotHightlight: {fileID: 3685617577217017068}
+  button: {fileID: 3560383838804057724}
 --- !u!1 &7175963009449231259
 GameObject:
   m_ObjectHideFlags: 0
