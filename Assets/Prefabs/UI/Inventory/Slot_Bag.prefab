@@ -276,6 +276,23 @@ MonoBehaviour:
   amountText: {fileID: 3319564762285688688}
   slotHightlight: {fileID: 3685617577217017068}
   button: {fileID: 3560383838804057724}
+  slotType: 0
+  isSelected: 0
+  itemDetails:
+    itemID: 0
+    itemName: 
+    itemType: 0
+    itemIcon: {fileID: 0}
+    itemOnWorldSprite: {fileID: 0}
+    itemDescription: 
+    useRadius: 0
+    canPickedup: 0
+    canDropped: 0
+    canCarried: 0
+    price: 0
+    sellPercentage: 0
+  itemAmount: 0
+  slotIndex: 0
 --- !u!1 &7175963009449231259
 GameObject:
   m_ObjectHideFlags: 0
@@ -363,7 +380,7 @@ GameObject:
   - component: {fileID: 2176536953539039906}
   - component: {fileID: 1450747048307271254}
   - component: {fileID: 3685617577217017068}
-  - component: {fileID: 7751686700782421573}
+  - component: {fileID: 6089199064497967991}
   m_Layer: 5
   m_Name: HighLight
   m_TagString: Untagged
@@ -429,19 +446,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!111 &7751686700782421573
-Animation:
+--- !u!95 &6089199064497967991
+Animator:
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9031863693850495171}
   m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 390b9ad64aa00ba41b333eec72113bdb, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: 390b9ad64aa00ba41b333eec72113bdb, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e53219fea3ba06e40a9cfda5793af108, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
