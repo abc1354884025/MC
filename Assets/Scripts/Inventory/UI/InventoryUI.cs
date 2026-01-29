@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 namespace MFarm.Inventory
 {
     public class InventoryUI : MonoBehaviour
     {
+        [Header("ÍÏ×§Í¼Æ¬")]
+        public Image dragItem;
         [Header("±³°üUI")]
         [SerializeField] private GameObject bagUI;
         private bool bagOpened;

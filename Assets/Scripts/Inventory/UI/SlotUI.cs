@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace MFarm.Inventory
 {
-    public class SlotUI : MonoBehaviour,IPointerClickHandler
+    public class SlotUI : MonoBehaviour,IPointerClickHandler,IBeginDragHandler,IDragHandler,IEndDragHandler
     {
         [Header("组件获取")]
         [SerializeField] private Image slotImage;
@@ -64,6 +64,26 @@ namespace MFarm.Inventory
             isSelected=!isSelected;
             slotHightlight.gameObject.SetActive(isSelected);
             inventoryUI.UpdateSlotHightlight(slotIndex);
+        }
+
+        public void OnBeginDrag(PointerEventData eventData)
+        {
+            if(itemAmount==0) return;
+            inventoryUI.dragItem.enabled=true;
+            inventoryUI.dragItem.sprite = slotImage.sprite;
+
+            isSelected = true;
+            inventoryUI.UpdateSlotHightlight(slotIndex);
+        }
+
+        public void OnDrag(PointerEventData eventData)
+        {
+            inventoryUI.dragItem.transform.position=Input.mousePosition;
+        }
+
+        public void OnEndDrag(PointerEventData eventData)
+        {
+            inventoryUI.dragItem.enabled = false;
         }
     }
 }
