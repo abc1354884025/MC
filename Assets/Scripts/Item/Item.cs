@@ -12,7 +12,8 @@ namespace MFarm.Inventory
         
         private BoxCollider2D collider;
 
-        private void Awake()
+
+        private void Start()
         {
             sr = GetComponentInChildren<SpriteRenderer>();
             collider = GetComponent<BoxCollider2D>();

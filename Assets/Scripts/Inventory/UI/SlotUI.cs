@@ -19,7 +19,7 @@ namespace MFarm.Inventory
         public bool isSelected;
 
         public ItemDetails itemDetails;
-        public int itemAmount;
+        public int itemAmount =0;
         public int slotIndex;
 
         private InventoryUI inventoryUI =>GetComponentInParent<InventoryUI>();
@@ -53,6 +53,7 @@ namespace MFarm.Inventory
             {
                 isSelected = false;
             }
+            itemAmount = 0;
             slotImage.enabled = false;
             amountText.text = string.Empty;
             button.interactable = false;
@@ -83,7 +84,24 @@ namespace MFarm.Inventory
 
         public void OnEndDrag(PointerEventData eventData)
         {
+
+            if (itemAmount == 0) return;
             inventoryUI.dragItem.enabled = false;
+            if (eventData.pointerCurrentRaycast.gameObject == null)
+            {
+                if (!itemDetails.canDropped) return;
+                var pos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
+                EventHandler.CallInstantiateItemInScene(itemDetails.itemID, pos);
+                return;
+            }
+            var targetSlot= eventData.pointerCurrentRaycast.gameObject.GetComponent<SlotUI>();
+            if (targetSlot == null )return;
+            int targetIndex = targetSlot.slotIndex;
+
+            if (slotType != SlotType.Bag || targetSlot.slotType != SlotType.Bag) return;
+            InventoryManager.Instance.SwapItem(slotIndex, targetIndex);
+            inventoryUI.UpdateSlotHightlight(-1);
+
         }
     }
 }

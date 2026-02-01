@@ -84,6 +84,12 @@ public class InventoryManager : Singleton<InventoryManager>
         return -1;
     }
 
+    /// <summary>
+    /// 添加物品
+    /// </summary>
+    /// <param name="ID"></param>
+    /// <param name="index"></param>
+    /// <param name="amount"></param>
     private void AddItemAtIndex(int ID, int index, int amount)
     {
         if (index == -1)
@@ -106,5 +112,29 @@ public class InventoryManager : Singleton<InventoryManager>
             playerBag.itemList[index] = item;
         }
         
+    }
+
+    /// <summary>
+    /// 交换道具
+    /// </summary>
+    /// <param name="formIndex"></param>
+    /// <param name="targetIndex"></param>
+    public void SwapItem(int formIndex, int targetIndex)
+    {
+        InventoryItem currentItem=playerBag.itemList[formIndex];
+        InventoryItem targetItem=playerBag.itemList[targetIndex];
+
+        if (targetItem.itemID != 0)
+        {
+            playerBag.itemList[formIndex] = targetItem;
+            playerBag.itemList[targetIndex] = currentItem;
+        }
+        else
+        {
+            playerBag.itemList[targetIndex]=currentItem;
+            playerBag.itemList[formIndex]=new InventoryItem();
+        }
+
+        EventHandler.CallUpdateInventoryUI(InventoryLocation.Player, playerBag.itemList);   
     }
 }
