@@ -10,10 +10,15 @@ public class Player : MonoBehaviour
     private float inputX;
     private float inputY;
     private Vector2 movementInput;
+
+    private Animator[] animators;
+
+    private bool isMoving;
     // Start is called before the first frame update
     private void Awake()
     {
         rb=GetComponent<Rigidbody2D>();
+        animators = GetComponentsInChildren<Animator>();
     }
 
     // Update is called once per frame
@@ -21,6 +26,7 @@ public class Player : MonoBehaviour
     {
 
         PlayerInput();
+        SwitchAnimation();
     }
     private void FixedUpdate()
     {
@@ -32,10 +38,30 @@ public class Player : MonoBehaviour
         inputX = Input.GetAxisRaw("Horizontal");
         inputY = Input.GetAxisRaw("Vertical");
 
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            inputX *= 0.4f;
+            inputY *= 0.4f;
+        }
+
         movementInput=new Vector2(inputX, inputY);
+
+        isMoving = movementInput != Vector2.zero;
     }
     private void MoveMent()
     {
         rb.MovePosition(rb.position + movementInput * speed* Time.deltaTime);
+    }
+
+    private void SwitchAnimation()
+    {
+        foreach (var animator in animators)
+        {
+            animator.SetBool("IsMoving", isMoving);
+            if (!isMoving) continue; 
+            animator.SetFloat("InputX", inputX);
+            animator.SetFloat("InputY", inputY);
+            
+        }
     }
 }
